@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+﻿using HR.Domain.Interfaces;
+using System.ComponentModel;
 
-namespace HR.Application.ViewModels;
-public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
+namespace HR.Domain.Abstracts;
+public abstract class ViewModelBase : IViewModel
 {
     private bool _disposedValue;
 
@@ -40,3 +41,4 @@ public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
         GC.SuppressFinalize(this);
     }
 }
+
