@@ -3,7 +3,7 @@
 namespace HR.Domain.Interfaces;
 public interface IAccountService
 {
-    void Register(AccountRegisterModel registerModel);
+    Task<AccountInformationModel?> RegisterAsync(AccountRegisterModel registerModel,CancellationToken cancellationToken);
 
-    TokenModel Login(AccountLoginModel loginModel);
+    Task<TokenModel?> LoginAsync(AccountLoginModel loginModel,CancellationToken cancellationToken);
 }

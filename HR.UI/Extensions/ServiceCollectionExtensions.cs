@@ -41,4 +41,13 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<INavigationCommand<T>, NavigateCommand<T>>();
         return services;
     }
+    public static IServiceCollection AddFactory<TInterface,TImpl>(this IServiceCollection services) 
+        where TImpl : class,TInterface
+        where TInterface : class
+    {
+        //services.AddTransient<TInterface,TImpl>();
+        services.AddSingleton<Func<TInterface>>(s =>()=>s.GetRequiredService<TInterface>());
+        services.AddSingleton<IFactory<TInterface>, FactoryBase<TInterface>>();
+        return services;
+    }
 }

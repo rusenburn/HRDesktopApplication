@@ -10,8 +10,4 @@
     <ProjectReference Include="..\HR.Domain\HR.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="HttpServices\" />
-  </ItemGroup>
-
 </Project>

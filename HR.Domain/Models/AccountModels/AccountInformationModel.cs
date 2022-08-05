@@ -1,3 +1,3 @@
 ﻿namespace HR.Domain.Models;
-public record AccountInformationModel(string Username,string Password,bool IsAdmin);
+public record AccountInformationModel(string Email,string Username);
 
