@@ -12,9 +12,26 @@ public class AccountHttpService : IAccountService
     {
         _client = client;
     }
-    public Task<TokenModel?> LoginAsync(AccountLoginModel loginModel, CancellationToken cancellationToken)
+    public async Task<TokenModel?> LoginAsync(AccountLoginModel loginModel, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(loginModel);
+        try
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string,string>("username",loginModel.Username),
+                new KeyValuePair<string,string>("password",loginModel.Password),
+            });
+
+            var response = await _client.PostAsync(new Uri($"{BASE_URI}/login"), content,cancellationToken);
+            if (response is null || !response.IsSuccessStatusCode) return null;
+            TokenModel? JWTToken = await response.Content.ReadFromJsonAsync<TokenModel>(cancellationToken:cancellationToken);
+            return JWTToken;
+        }
+        finally
+        {
+
+        }
     }
 
     public async Task<AccountInformationModel?> RegisterAsync(AccountRegisterModel registerModel,CancellationToken cancellationToken)

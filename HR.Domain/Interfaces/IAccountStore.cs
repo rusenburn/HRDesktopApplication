@@ -1,10 +1,14 @@
-﻿using HR.Domain.StoreModels.AccountStoreModels;
+﻿using HR.Domain.Models;
+using HR.Domain.StoreModels.AccountStoreModels;
 
 namespace HR.Domain.Interfaces;
-public interface IAccountStore
+public interface IAccountStore : IDisposable
 {
-    AccountInfomationStoreModel? Account { get; set; }
-    AccountRegisterStoreModel AccountRegisterStoreModel { get; set; }
+    AccountInformationStoreModel? Account { get; set; }
+    AccountRegisterStoreModel AccountRegisterStoreModel { get; }
+    AccountLoginStoreModel AccountLogin { get; }
+    TokenModel? JWTToken { get; set; }
 
     event Action AccountChanged;
+
 }

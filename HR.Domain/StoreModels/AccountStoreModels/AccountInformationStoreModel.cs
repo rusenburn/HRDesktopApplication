@@ -1,40 +1,37 @@
 ﻿using HR.Domain.Abstracts;
 
-namespace HR.Application.StoreModels;
+namespace HR.Domain.StoreModels.AccountStoreModels;
 public class AccountInformationStoreModel : StoreModelBase
 {
-    private string _username;
     private string _email;
-
+    private string _username;
     public string Email
     {
         get => _email;
         set
         {
-            if (_email == value) return;
-            _email = value;
-            OnPropertyChanged(nameof(Email));
+            OnPropertyChanged(ref _email, value);
         }
-    }
 
+    }
     public string Username
     {
         get => _username;
         set
         {
-            if (value == _username) return;
+            if (_username == value) return;
             _username = value;
-            OnPropertyChanged(nameof(_username));
+            OnPropertyChanged(nameof(Username));
         }
     }
+
     public AccountInformationStoreModel(string email, string username)
     {
-        Username = username;
         Email = email;
+        Username = username;
     }
 
-
-
+    
 
 
 }

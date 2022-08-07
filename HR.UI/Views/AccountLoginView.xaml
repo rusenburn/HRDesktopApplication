@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="HR.UI.Views.AccountLoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HR.UI.Views" xmlns:components="clr-namespace:HR.UI.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid d:Background="WhiteSmoke">
+        <Grid Margin="10 20 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center"
+                       Text="Sign In" FontSize="22" Margin="0 20"/>
+            <Grid Grid.Row="1" Margin="0 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Username" Width="100"/>
+                <TextBox Grid.Column="1" Width="200" Text="{Binding AccountLogin.Username,UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <Grid Grid.Row="2" Margin="0 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Password" Width="100"/>
+                <components:BindablePasswordBox Grid.Column="1" Width="200" Password="{Binding AccountLogin.Password,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Cancel" Width="100" Command="{Binding HomeIndexNavigationCommand}"/>
+                <Button Grid.Column="1" Content="Login" Width="100" Command="{Binding AccountLoginCommand}" IsEnabled="{Binding AccountLoginCommandCanExecute}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

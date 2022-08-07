@@ -7,14 +7,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace HR.Test.DALTests;
 
-public abstract class AccountHttpServiceTests
+public abstract class AccountHttpServiceTests : IDisposable
 {
     protected HttpMessageHandlerMock MessageHandlerMock { get; set; }
     protected HttpClient Client { get; set; }
     protected AccountHttpService ServiceUnderTest { get; }
     protected AccountRegisterModel AccountRegisterModel { get; private set; }
     protected AccountInformationModel AccountInformationModel { get; private set; }
-    protected CancellationToken CancellationToken = new();
+    protected AccountLoginModel AccountLoginModel { get; private set; }
+    protected CancellationTokenSource CancellationTokenSource { get; }
     public AccountHttpServiceTests()
     {
         MessageHandlerMock = new HttpMessageHandlerMock();
@@ -22,6 +23,8 @@ public abstract class AccountHttpServiceTests
         ServiceUnderTest = new AccountHttpService(Client);
         AccountRegisterModel = new AccountRegisterModel("Email@mail.com", "Email@mail.com", "Test123");
         AccountInformationModel = new AccountInformationModel("Email@mail.com", "Email@mail.com");
+        AccountLoginModel = new AccountLoginModel("Email@mail.com", "Email@mail.com");
+        CancellationTokenSource = new();
     }
 
     public class RegisterAsync : AccountHttpServiceTests
@@ -48,7 +51,7 @@ public abstract class AccountHttpServiceTests
             MessageHandlerMock.MockResponse(message);
 
             // Act
-            AccountInformationModel? result = await ServiceUnderTest.RegisterAsync(AccountRegisterModel, CancellationToken);
+            AccountInformationModel? result = await ServiceUnderTest.RegisterAsync(AccountRegisterModel, CancellationTokenSource.Token);
 
             // Assert
             Assert.Equal(1, MessageHandlerMock.CallCount);
@@ -61,11 +64,48 @@ public abstract class AccountHttpServiceTests
             // Arrange
             MessageHandlerMock.MockResponse(HttpStatusCode.BadRequest);
             // Act
-            var result = await ServiceUnderTest.RegisterAsync(AccountRegisterModel, CancellationToken);
+            var result = await ServiceUnderTest.RegisterAsync(AccountRegisterModel, CancellationTokenSource.Token);
 
             // Assert
             Assert.Null(result);
         }
+    }
+    public class LoginAsync:AccountHttpServiceTests
+    {
+        [Fact]
+        public async Task Should_throw_ArgumentNullException_when_argument_is_null()
+        {
+            // Arrange 
+            CancellationTokenSource tokenSource = new();
+            var token = tokenSource.Token;
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await ServiceUnderTest.LoginAsync(null, token));
+        }
+
+        [Fact]
+        public async Task Should_return_Token_when_json_returned()
+        {
+            // Arrange
+            TokenModel tokenModel = new TokenModel("token", "tt");
+            
+            var message = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = JsonContent.Create(tokenModel)
+            };
+            MessageHandlerMock.MockResponse(message);
+
+            // Act
+            var response = await ServiceUnderTest.LoginAsync(AccountLoginModel, CancellationTokenSource.Token);
+
+            // Assert
+            Assert.Equal(tokenModel.AccessToken, response?.AccessToken);
+        }
+    }
+
+
+    public void Dispose()
+    {
+        CancellationTokenSource.Dispose();
     }
 }
 //public class AccountHttpServiceTests

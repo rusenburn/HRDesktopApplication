@@ -15,6 +15,7 @@ public class NavigationService<TViewModel> : INavigationService<TViewModel>
 
     public void Navigate()
     {
-        _navigationStore.CurrentViewModel = _viewModelFactory.Create();
+         var viewModel =   _viewModelFactory.Create();
+        _navigationStore.CurrentViewModel = viewModel;
     }
 }

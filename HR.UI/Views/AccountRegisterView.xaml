@@ -51,10 +51,8 @@
             <Grid Grid.Row="4" Margin="0 30 0 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Cancel" Grid.Column="0" Width="100" Command="{Binding HomeIndexNavigationCommand}"/>
-                <Button Content="Sign up" Grid.Column="1" Width="100" Command="{Binding AccountRegisterCommand}"/>
+                <Button Content="Sign up" Grid.Column="1" Width="100" Command="{Binding AccountRegisterCommand}" IsEnabled="{Binding AccountRegisterCommandCanExecute}"/>
             </Grid>
             <StackPanel 
                 Grid.Row="5" 
@@ -63,7 +61,7 @@
                 HorizontalAlignment="Center"
                 Margin="0 30 0 0">
                 <TextBlock Text="Or "/>
-                <Button Content="Sign In"/>
+                <Button Content="Sign In" Command="{Binding AccountLoginNavigationCommand}"/>
                 <TextBlock Text="If you have an account..."/>
             </StackPanel>
         </Grid>

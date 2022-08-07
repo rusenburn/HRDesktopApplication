@@ -31,6 +31,7 @@ public abstract class AsyncCommandBase : CommandBase
         {
             await ExecuteAsync(parameter);
         }
+        catch { }
         finally
         {
             IsExecuting = false;

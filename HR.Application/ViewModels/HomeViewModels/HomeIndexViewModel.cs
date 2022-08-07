@@ -7,8 +7,10 @@ namespace HR.Application.ViewModels.HomeViewModels;
 public class HomeIndexViewModel : ViewModelBase
 {
     public ICommand AccountRegisterNavigationCommand { get; }
-    public HomeIndexViewModel(INavigationCommand<AccountRegisterViewModel> accountRegisterNavigationCommand)
+    public ICommand AccountLoginNavigationCommand { get; }
+    public HomeIndexViewModel(INavigationCommand<AccountRegisterViewModel> accountRegisterNavigationCommand, INavigationCommand<AccountLoginViewModel> accountLoginNavigationCommand)
     {
         AccountRegisterNavigationCommand = accountRegisterNavigationCommand;
+        AccountLoginNavigationCommand = accountLoginNavigationCommand;
     }
 }

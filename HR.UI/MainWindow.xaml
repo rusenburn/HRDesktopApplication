@@ -18,11 +18,14 @@
             <DataTemplate DataType="{x:Type accountVMs:AccountRegisterViewModel}">
                 <views:AccountRegisterView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type accountVMs:AccountLoginViewModel}">
+                <views:AccountLoginView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type homeVMs:HomeIndexViewModel}">
                 <views:HomeIndexView/>
             </DataTemplate>
         </Grid.Resources>
-        <TextBlock Grid.Row="0" Text="App is Running..." HorizontalAlignment="Center" FontSize="22"/>
+        <TextBlock Grid.Row="0" Text="App is Running...." HorizontalAlignment="Center" FontSize="22"/>
         <ContentControl Grid.Row="1"  Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>

@@ -28,6 +28,7 @@ namespace HR.UI
             builder.ConfigureServices((hostbuilder, services) =>
             {
                 services.AddViewModelAndExtras<AccountRegisterViewModel>();
+                services.AddViewModelAndExtras<AccountLoginViewModel>();
                 services.AddViewModelAndExtras<HomeIndexViewModel>();
 
                 // services
@@ -36,11 +37,12 @@ namespace HR.UI
 
                 // Non Navigation Commands
                 services.AddSingleton<AccountRegisterCommand>();
+                services.AddSingleton<AccountLoginCommand>();
 
                 // Stores
                 services.AddSingleton<INavigationStore, NavigationStore>();
                 services.AddSingleton<IAccountStore, AccountStore>();
-                    
+                services.AddSingleton<IAuthorizationStore, AuthorizationStore>();
 
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainViewModel>();

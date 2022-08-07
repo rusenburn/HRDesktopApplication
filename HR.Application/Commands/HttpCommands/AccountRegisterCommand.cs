@@ -20,6 +20,6 @@ public class AccountRegisterCommand : AsyncCommandBase
         var model = new AccountRegisterModel(Email: storeModel.Email, Username: storeModel.Username, Password: storeModel.Password);
         var result = await accountService.RegisterAsync(model, CancellationToken.None);
         if (result is null) return;
-        _accountStore.Account = new AccountInfomationStoreModel(result.Email,result.Username);
+        _accountStore.Account = new AccountInformationStoreModel(result.Email,result.Username);
     }
 }
