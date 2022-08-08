@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HR.UI"
         xmlns:views="clr-namespace:HR.UI.Views"
+        xmlns:regionviews="clr-namespace:HR.UI.Views.RegionViews"
+        xmlns:regionVMs="clr-namespace:HR.Application.ViewModels.RegionViewModels;assembly=HR.Application"
+        xmlns:cmps="clr-namespace:HR.UI.Components"
         xmlns:accountVMs="clr-namespace:HR.Application.ViewModels.AccountViewModels;assembly=HR.Application"
         xmlns:homeVMs="clr-namespace:HR.Application.ViewModels.HomeViewModels;assembly=HR.Application"
+        xmlns:sharedVMs="clr-namespace:HR.Application.ViewModels.SharedComponentsViewModels;assembly=HR.Application"
         mc:Ignorable="d"
         Title="HR App" Height="450" Width="800">
     <Grid>
@@ -15,15 +19,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.Resources>
+            <!--Account Views-->
+            
             <DataTemplate DataType="{x:Type accountVMs:AccountRegisterViewModel}">
                 <views:AccountRegisterView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type accountVMs:AccountLoginViewModel}">
                 <views:AccountLoginView/>
             </DataTemplate>
+            
+            <!--Home And Shared Views-->
             <DataTemplate DataType="{x:Type homeVMs:HomeIndexViewModel}">
                 <views:HomeIndexView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type sharedVMs:NavbarComponentViewModel}">
+                <cmps:Navbar/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type sharedVMs:LayoutComponentViewModel}">
+                <cmps:LayoutComponent/>
+            </DataTemplate>
+            
+            <!--Region Views-->
+            <DataTemplate DataType="{x:Type regionVMs:RegionIndexViewModel}">
+                <regionviews:RegionIndexView/>
+            </DataTemplate>
+            
         </Grid.Resources>
         <TextBlock Grid.Row="0" Text="App is Running...." HorizontalAlignment="Center" FontSize="22"/>
         <ContentControl Grid.Row="1"  Content="{Binding CurrentViewModel}"/>

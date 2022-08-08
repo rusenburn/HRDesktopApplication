@@ -63,6 +63,5 @@ public class AccountStore : IAccountStore
             _isDisposedValue = true;
             GC.SuppressFinalize(this);
         }
-
     }
 }

@@ -53,9 +53,9 @@ public class AccountRegisterViewModel : ViewModelBase
 
     protected override void Dispose(bool disposing)
     {
-        if(!_disposedValue)
+        if (!_disposedValue)
         {
-            if(disposing)
+            if (disposing)
             {
                 AccountRegisterCommand.CanExecuteChanged -= OnAccountLoginCommandCanExecuteChanged;
             }

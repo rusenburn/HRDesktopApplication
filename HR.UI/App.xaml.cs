@@ -4,6 +4,8 @@ using HR.Application.Services;
 using HR.Application.Stores;
 using HR.Application.ViewModels.AccountViewModels;
 using HR.Application.ViewModels.HomeViewModels;
+using HR.Application.ViewModels.RegionViewModels;
+using HR.Application.ViewModels.SharedComponentsViewModels;
 using HR.DAL.HttpServices;
 using HR.Domain.Abstracts;
 using HR.Domain.Interfaces;
@@ -27,9 +29,11 @@ namespace HR.UI
             var builder = Host.CreateDefaultBuilder();
             builder.ConfigureServices((hostbuilder, services) =>
             {
-                services.AddViewModelAndExtras<AccountRegisterViewModel>();
-                services.AddViewModelAndExtras<AccountLoginViewModel>();
+                services.AddViewModelAndExtras<AccountRegisterViewModel>(layout:false);
+                services.AddViewModelAndExtras<AccountLoginViewModel>(layout:false);
                 services.AddViewModelAndExtras<HomeIndexViewModel>();
+                services.AddViewModelAndExtras<NavbarComponentViewModel>();
+                services.AddViewModelAndExtras<RegionIndexViewModel>();
 
                 // services
                 services.AddHttpClient<IAccountService, AccountHttpService>();
@@ -43,6 +47,7 @@ namespace HR.UI
                 services.AddSingleton<INavigationStore, NavigationStore>();
                 services.AddSingleton<IAccountStore, AccountStore>();
                 services.AddSingleton<IAuthorizationStore, AuthorizationStore>();
+                services.AddSingleton<IRegionStore, RegionStore>();
 
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainViewModel>();

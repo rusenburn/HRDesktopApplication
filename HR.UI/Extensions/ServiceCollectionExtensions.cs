@@ -1,6 +1,7 @@
 ﻿using HR.Application;
 using HR.Application.Commands;
 using HR.Application.Services;
+using HR.Application.ViewModels.SharedComponentsViewModels;
 using HR.Domain.Abstracts;
 using HR.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,15 +33,28 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddViewModelAndExtras<T>(this IServiceCollection services) where T : class,IViewModel
+    public static IServiceCollection AddViewModelAndExtras<T>(this IServiceCollection services,bool layout=true) where T : class,IViewModel
     {
         services.AddTransient<T>();
         services.AddSingleton<Func<T>>(s => () => s.GetRequiredService<T>());
         services.AddSingleton<IFactory<T>,FactoryBase<T>>();
-        services.AddSingleton<INavigationService<T>, NavigationService<T>>();
+        if (layout)
+        {
+            services.AddSingleton<INavigationService<T>, LayoutNavigationService<T>>();
+        }
+        else
+        {
+            services.AddSingleton<INavigationService<T>, NavigationService<T>>();
+        }
         services.AddSingleton<INavigationCommand<T>, NavigateCommand<T>>();
+
+        // register layout dependencies
+        //services.AddTransient<LayoutComponentViewModel<T>>();
+        //services.AddSingleton<Func<LayoutComponentViewModel<T>>>(s=>()=>s.GetRequiredService<LayoutComponentViewModel<T>>());
+        //services.AddFactory<IFactory<LayoutComponentViewModel<T>>,FactoryBase<LayoutComponentViewModel<T>>>();
         return services;
     }
+
     public static IServiceCollection AddFactory<TInterface,TImpl>(this IServiceCollection services) 
         where TImpl : class,TInterface
         where TInterface : class
