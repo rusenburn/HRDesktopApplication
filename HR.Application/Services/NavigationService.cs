@@ -1,7 +1,7 @@
 ﻿using HR.Domain.Interfaces;
 
 namespace HR.Application.Services;
-public class NavigationService<TViewModel> : INavigationService<TViewModel> 
+public class NavigationService<TViewModel> : INavigationService<TViewModel> , IAsyncNavigationService<TViewModel>
     where TViewModel : IViewModel
 {
     private readonly IFactory<TViewModel> _viewModelFactory;
@@ -17,5 +17,12 @@ public class NavigationService<TViewModel> : INavigationService<TViewModel>
     {
          var viewModel =   _viewModelFactory.Create();
         _navigationStore.CurrentViewModel = viewModel;
+    }
+
+    public async Task NavigateAsync()
+    {
+        var viewModel = _viewModelFactory.Create();
+        _navigationStore.CurrentViewModel = viewModel;
+        await viewModel.OnInitializedAsync();
     }
 }

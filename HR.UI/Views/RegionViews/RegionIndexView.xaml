@@ -23,7 +23,7 @@
         </Grid>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Loading..." Visibility="{Binding IsLoading,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Text="Loading..." Visibility="{Binding IsLoading,Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="30"/>
             <ListView ItemsSource="{Binding Regions}"
                       Visibility="{Binding IsLoading,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                 <ListView.ItemContainerStyle>

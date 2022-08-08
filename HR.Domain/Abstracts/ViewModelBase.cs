@@ -40,5 +40,10 @@ public abstract class ViewModelBase : IViewModel
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
+    public virtual Task OnInitializedAsync()
+    {
+        return Task.CompletedTask;
+    }
 }
 

@@ -1,13 +1,8 @@
 ﻿using HR.Application.ViewModels.SharedComponentsViewModels;
 using HR.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HR.Application.Services;
-public class LayoutNavigationService<TViewModel> : INavigationService<TViewModel>
+public class LayoutNavigationService<TViewModel> : INavigationService<TViewModel>, IAsyncNavigationService<TViewModel>
     where TViewModel : IViewModel
 {
     private readonly INavigationStore _navigationStore;
@@ -24,5 +19,14 @@ public class LayoutNavigationService<TViewModel> : INavigationService<TViewModel
     public void Navigate()
     {
         _navigationStore.CurrentViewModel = new LayoutComponentViewModel(_viewModelFactory.Create(), _navbarFactory.Create());
+    }
+
+    public async Task NavigateAsync()
+    {
+        var viewModel = _viewModelFactory.Create();
+        var navbar = _navbarFactory.Create();
+        _navigationStore.CurrentViewModel = new LayoutComponentViewModel(viewModel,navbar);
+        await navbar.OnInitializedAsync();
+        await viewModel.OnInitializedAsync();
     }
 }

@@ -10,9 +10,17 @@ public class RegionStore : IRegionStore
     public bool IsLoading
     {
         get { return _isLoading; }
-        set { _isLoading = value; }
+        set
+        {
+            _isLoading = value;
+            OnIsLoadingChanged();
+        }
     }
     public event Action IsLoadingChanged = () => { };
 
     public ObservableCollection<RegionStoreModel> AllRegions { get; } = new();
+    protected void OnIsLoadingChanged()
+    {
+        IsLoadingChanged.Invoke();
+    }
 }

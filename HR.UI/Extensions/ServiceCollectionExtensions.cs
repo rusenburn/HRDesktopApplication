@@ -41,17 +41,17 @@ public static class ServiceCollectionExtensions
         if (layout)
         {
             services.AddSingleton<INavigationService<T>, LayoutNavigationService<T>>();
+            services.AddSingleton<IAsyncNavigationService<T>, LayoutNavigationService<T>>();
         }
         else
         {
             services.AddSingleton<INavigationService<T>, NavigationService<T>>();
+            services.AddSingleton<IAsyncNavigationService<T>, NavigationService<T>>();
         }
-        services.AddSingleton<INavigationCommand<T>, NavigateCommand<T>>();
+        //services.AddSingleton<INavigationCommand<T>, NavigateCommand<T>>();
+        services.AddSingleton<INavigationCommand<T>, AsyncNavigationCommand<T>>();
 
-        // register layout dependencies
-        //services.AddTransient<LayoutComponentViewModel<T>>();
-        //services.AddSingleton<Func<LayoutComponentViewModel<T>>>(s=>()=>s.GetRequiredService<LayoutComponentViewModel<T>>());
-        //services.AddFactory<IFactory<LayoutComponentViewModel<T>>,FactoryBase<LayoutComponentViewModel<T>>>();
+
         return services;
     }
 
