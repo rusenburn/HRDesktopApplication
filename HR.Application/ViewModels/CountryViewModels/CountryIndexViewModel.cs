@@ -18,12 +18,19 @@ public class CountryIndexViewModel : ViewModelBase
     public bool IsCountryUpdateEnabled => _countryStore.IsCountryUpdateEnabled;
     public ObservableCollection<CountryStoreModel> Countries => _countryStore.AllCountries;
     public ICommand EditCountryCommand { get; }
+    public IViewModel CountryCreateComponent { get; }
+    public IViewModel CountryUpdateComponent { get; }
 
-    public CountryIndexViewModel(ICountryStore countryStore, ICountryService countryService)
+    public CountryIndexViewModel(ICountryStore countryStore,
+                                 ICountryService countryService,
+                                 IFactory<CountryCreateComponentViewModel> countryCreateComponentFactory,
+                                 IFactory<CountryUpdateComponentViewModel> countryUpdateComponentFactory)
     {
         _countryStore = countryStore;
         _countryService = countryService;
         EditCountryCommand = new RelayCommand(EditCountry);
+        CountryCreateComponent = countryCreateComponentFactory.Create();
+        CountryUpdateComponent = countryUpdateComponentFactory.Create();
 
         _countryStore.IsLoadingChangedHandler += OnIsLoadingChanged;
         _countryStore.IsCountryUpdateEnabledChanged += OnIsCountryUpdateEnabledChanged;
@@ -39,17 +46,13 @@ public class CountryIndexViewModel : ViewModelBase
         _countryStore.IsLoading = true;
         _countryStore.AllCountries.Clear();
 #if DEBUG
-        await Task.Delay(500);
+        await Task.Delay(1000);
 #endif
         try
         {
             using CancellationTokenSource cancellationTokenSource = new();
-            //var countries = await _countryService.GetAllAsync(new CountryQueryModel(), cancellationTokenSource.Token);
-            var countries = await Task.FromResult(new CountryModel[] {
-                new(1,"Jordan",1),
-                new(1,"Egypt",1),
-                new(1,"Iraq",1),
-            });
+            var countries = await _countryService.GetAllAsync(new CountryQueryModel(), cancellationTokenSource.Token);
+
             foreach (var country in countries)
             {
                 _countryStore.AllCountries.Add(new CountryStoreModel(
@@ -62,11 +65,15 @@ public class CountryIndexViewModel : ViewModelBase
         {
             _countryStore.IsLoading = false;
         }
+
+        await CountryCreateComponent.OnInitializedAsync();
+        await CountryUpdateComponent.OnInitializedAsync();
     }
 
     private void OnIsLoadingChanged(object? sender, EventArgs e)
     {
         OnPropertyChanged(nameof(IsLoading));
+
     }
 
     private void EditCountry(object? obj)
@@ -87,6 +94,9 @@ public class CountryIndexViewModel : ViewModelBase
             if (disposing)
             {
                 _countryStore.IsLoadingChangedHandler -= OnIsLoadingChanged;
+                _countryStore.IsCountryUpdateEnabledChanged += OnIsCountryUpdateEnabledChanged;
+                CountryUpdateComponent.Dispose();
+                CountryCreateComponent.Dispose();
             }
             _isDisposed = true;
         }

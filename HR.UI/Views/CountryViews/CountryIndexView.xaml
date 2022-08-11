@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HR.UI.Views.CountryViews"
+             xmlns:local="clr-namespace:HR.UI.Views.CountryViews" xmlns:countrycomponents="clr-namespace:HR.UI.Components.CountryComponents"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:Background="WhiteSmoke"
@@ -29,12 +29,10 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" d:Height="400" d:Width="400" Visibility="{Binding IsCountryUpdateEnabled,Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                       d:Visibility="Collapsed">
-                    <TextBlock Text="Create" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center"/>
+                    <countrycomponents:CountryCreateComponent DataContext="{Binding CountryCreateComponent}"/>
                 </Grid>
                 <Grid Grid.Row="1" d:Height="400" d:Width="400" Visibility="{Binding IsCountryUpdateEnabled,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="Update" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <countrycomponents:CountryUpdateComponent DataContext="{Binding CountryUpdateComponent}"/>
                 </Grid>
             </Grid>
 
@@ -83,7 +81,7 @@
 
                             <!--RegionId Column-->
 
-                            <GridViewColumn Header="RegionId Name">
+                            <GridViewColumn Header="Region">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding RegionId}" HorizontalAlignment="Center"  Padding="0 0 20 0"/>
@@ -101,8 +99,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView>
-
-
+                        
                     </ListView.View>
                 </ListView>
 

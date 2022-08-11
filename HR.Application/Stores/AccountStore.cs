@@ -48,10 +48,14 @@ public class AccountStore : IAccountStore
     {
         AccountChanged?.Invoke();
     }
-    protected void OnAuthorizationChanged(AccountInformationModel accountInfo)
+    protected void OnAuthorizationChanged(AccountInformationModel? accountInfo)
     {
         _accountLogin.Password = "";
-        _accountLogin.Username = accountInfo.Username;
+        if(accountInfo is not null)
+        {
+            _accountLogin.Username = accountInfo.Username;
+        }
+        
     }
 
     public void Dispose()

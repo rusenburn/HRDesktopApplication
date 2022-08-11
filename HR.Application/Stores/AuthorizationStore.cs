@@ -27,6 +27,13 @@ public class AuthorizationStore : IAuthorizationStore
         dict.TryGetValue("sub", out string? username);
         OnAuthorizationChanged(new AccountInformationModel(email ?? "", username ?? ""));
     }
+    public void Logout()
+    {
+        _token = null;
+        _tokenType = null;
+        _jwtSecurityToken = null;
+        OnAuthorizationChanged(null);
+    }
     protected void OnAuthorizationChanged(AccountInformationModel accountInformationModel)
     {
         AuthorizationChanged?.Invoke(accountInformationModel);

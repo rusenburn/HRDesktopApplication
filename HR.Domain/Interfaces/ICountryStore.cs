@@ -8,6 +8,7 @@ public interface ICountryStore
     ObservableCollection<CountryStoreModel> AllCountries { get; set; }
     CountryUpdateStoreModel CountryUpdate { get; }
     bool IsCountryUpdateEnabled { get; set; }
+    CountryCreateStoreModel CountryCreate { get; }
 
     event EventHandler IsLoadingChangedHandler;
     event EventHandler IsCountryUpdateEnabledChanged;

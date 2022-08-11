@@ -9,9 +9,10 @@ public class NavigationStore : INavigationStore
         get => _currentViewModel;
         set
         {
-            _currentViewModel?.Dispose();
+            var temp = _currentViewModel;
             _currentViewModel = value;
             OnCurrentViewModelChanged();
+            temp?.Dispose();
         }
     }
 

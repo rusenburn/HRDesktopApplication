@@ -32,6 +32,7 @@ public class CountryStore : ICountryStore
     }
 
     public CountryUpdateStoreModel CountryUpdate { get; } = new CountryUpdateStoreModel(0, "", 0);
+    public CountryCreateStoreModel CountryCreate { get; } = new CountryCreateStoreModel("", 0);
     public ObservableCollection<CountryStoreModel> AllCountries { get; set; } = new ObservableCollection<CountryStoreModel>();
 
     public event EventHandler IsLoadingChangedHandler = (s, e) => { };

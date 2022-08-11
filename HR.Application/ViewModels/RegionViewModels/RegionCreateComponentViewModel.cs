@@ -50,7 +50,7 @@ public class RegionCreateComponentViewModel : ViewModelBase
 
     protected override void Dispose(bool disposing)
     {
-        if (_disposed)
+        if (!_disposed)
         {
             if (disposing)
             {

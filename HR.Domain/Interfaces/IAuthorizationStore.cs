@@ -10,6 +10,8 @@ public interface IAuthorizationStore
     bool IsTokenExpired { get; }
 
     void SetAuthorizationToken(TokenModel tokenModel);
+    void Logout();
+
     event Action<AccountInformationModel> AuthorizationChanged;
 
 }

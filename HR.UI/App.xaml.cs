@@ -30,14 +30,16 @@ namespace HR.UI
             var builder = Host.CreateDefaultBuilder();
             builder.ConfigureServices((hostbuilder, services) =>
             {
-                services.AddViewModelAndExtras<AccountRegisterViewModel>(layout:false);
-                services.AddViewModelAndExtras<AccountLoginViewModel>(layout:false);
+                services.AddViewModelAndExtras<AccountRegisterViewModel>(layout: false);
+                services.AddViewModelAndExtras<AccountLoginViewModel>(layout: false);
                 services.AddViewModelAndExtras<HomeIndexViewModel>();
                 services.AddViewModelAndExtras<NavbarComponentViewModel>();
                 services.AddViewModelAndExtras<RegionIndexViewModel>();
                 services.AddViewModelAndExtras<RegionCreateComponentViewModel>();
                 services.AddViewModelAndExtras<RegionUpdateComponentViewModel>();
                 services.AddViewModelAndExtras<CountryIndexViewModel>();
+                services.AddViewModelAndExtras<CountryCreateComponentViewModel>();
+                services.AddViewModelAndExtras<CountryUpdateComponentViewModel>();
 
                 // services
                 services.AddHttpClient<IAccountService, AccountHttpService>();
