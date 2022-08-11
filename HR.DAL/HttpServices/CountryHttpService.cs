@@ -55,7 +55,7 @@ public class CountryHttpService : ICountryService
         };
         message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _authorizationStore.Token);
         var response = await _client.SendAsync(message, cancellationToken);
-        if (!response.IsSuccessStatusCode) return new CountryModel[] { };
+        if (!response.IsSuccessStatusCode) return Array.Empty<CountryModel>();
         var result = await response.Content.ReadFromJsonAsync<CountryModel[]>(cancellationToken: cancellationToken);
         return result;
 

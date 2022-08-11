@@ -1,11 +1,9 @@
 ﻿using HR.Application.Commands;
 using HR.Application.ViewModels.AccountViewModels;
-using HR.Application.ViewModels.HomeViewModels;
 using HR.Domain.Abstracts;
 using HR.Domain.Interfaces;
 using HR.Domain.StoreModels.RegionStoreModels;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Input;
 
 namespace HR.Application.ViewModels.RegionViewModels;
@@ -19,46 +17,45 @@ public class RegionIndexViewModel : ViewModelBase
 
 
     #region Public Properties
+    public RegionCreateComponentViewModel RegionCreateComponent { get; }
+    public RegionUpdateComponentViewModel RegionUpdateComponent { get; }
     public ObservableCollection<RegionStoreModel> Regions => _regionStore.AllRegions;
     public bool IsLoading => _regionStore.IsLoading;
-    public ICommand RegionCreateNavigationCommand { get; }
+    public bool IsRegionUpdateEnabled => _regionStore.IsRegionUpdateEnabled;
+    public ICommand EditRegionCommand { get; }
     #endregion
 
 
     #region Constructors
-    public RegionIndexViewModel(IRegionStore regionStore, 
-            INavigationCommand<HomeIndexViewModel> regionCreateNavigationCommand,
-            INavigationCommand<AccountLoginViewModel> accountLoginNavigationCommand,
-            IRegionService regionService)
+    public RegionIndexViewModel(IRegionStore regionStore,
+            IRegionService regionService,
+            IFactory<RegionCreateComponentViewModel> regionCreateComponentFactory,
+            IFactory<RegionUpdateComponentViewModel> regionUpdateComponentFactory)
     {
-        ArgumentNullException.ThrowIfNull(accountLoginNavigationCommand);
+        
         _regionStore = regionStore ?? throw new ArgumentNullException(nameof(regionStore));
-        RegionCreateNavigationCommand = regionCreateNavigationCommand ?? throw new ArgumentNullException(nameof(regionCreateNavigationCommand));
         _regionService = regionService;
+        RegionCreateComponent = regionCreateComponentFactory.Create();
+        RegionUpdateComponent = regionUpdateComponentFactory.Create();
+        EditRegionCommand = new RelayCommand(EditRegion);
         _regionStore.IsLoadingChanged += OnIsLoadingChanged;
+        _regionStore.IsRegionUpdateEnabledChanged += OnIsRegionUpdateEnabledChanged;
     }
+
+
     #endregion
 
 
-    #region Private Functions
-    protected override void Dispose(bool disposing)
-    {
-        if (!_isDisposed)
-        {
-            if (disposing)
-            {
-                _regionStore.IsLoadingChanged -= OnIsLoadingChanged;
-            }
-            _isDisposed = true;
-        }
-        base.Dispose(disposing);
-    }
 
     public override async Task OnInitializedAsync()
     {
         _regionStore.IsLoading = true;
         _regionStore.AllRegions.Clear();
-        await Task.Delay(5000);
+
+#if DEBUG
+        await Task.Delay(500);
+#endif
+
         try
         {
             using CancellationTokenSource cancellationTokenSource = new();
@@ -72,16 +69,48 @@ public class RegionIndexViewModel : ViewModelBase
         {
             _regionStore.IsLoading = false;
         }
-        throw new Exception();
+        await RegionCreateComponent.OnInitializedAsync();
+        await RegionUpdateComponent.OnInitializedAsync();
     }
+
+
+    #region Private Functions
+    protected override void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                _regionStore.IsLoadingChanged -= OnIsLoadingChanged;
+                _regionStore.IsRegionUpdateEnabledChanged -= OnIsRegionUpdateEnabledChanged;
+            }
+            _isDisposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    private void EditRegion(object? obj)
+    {
+        if (obj is not RegionStoreModel region) return;
+
+        _regionStore.RegionUpdate.RegionId = region.RegionId;
+        _regionStore.RegionUpdate.RegionName = region.RegionName;
+        _regionStore.IsRegionUpdateEnabled = true;
+    }
+
     private void OnIsLoadingChanged()
     {
         OnPropertyChanged(nameof(IsLoading));
     }
+
+    private void OnIsRegionUpdateEnabledChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(IsRegionUpdateEnabled));
+    }
     #endregion
 
 
-  
 
-    
+
+
 }

@@ -53,9 +53,10 @@ public class RegionHttpService : IRegionService
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _authorizationStore.Token);
 
         var response = await _client.SendAsync(request, cancellationToken);
-        if (response.IsSuccessStatusCode == false) return new RegionModel[] { };
+        if (response.IsSuccessStatusCode == false) return Array.Empty<RegionModel>();
         var regions = await response.Content.ReadFromJsonAsync<RegionModel[]>(cancellationToken: cancellationToken);
-        return regions ?? new RegionModel[] { };
+        return regions ?? Array.Empty<RegionModel>();
+        ;
     }
 
     public async Task<RegionDetailModel?> GetOneAsync(int regionId, CancellationToken cancellationToken)
@@ -79,14 +80,14 @@ public class RegionHttpService : IRegionService
     public async Task<RegionDetailModel?> UpdateOneAsync(RegionUpdateModel regionUpdateModel, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(regionUpdateModel);
-        
+
         HttpRequestMessage request = new HttpRequestMessage()
         {
             RequestUri = new Uri($"{BASE_URI}/"),
             Method = HttpMethod.Put,
             Content = JsonContent.Create(regionUpdateModel)
         };
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer",_authorizationStore.Token);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _authorizationStore.Token);
         var response = await _client.SendAsync(request, cancellationToken);
         if (response.IsSuccessStatusCode == false) return null;
         RegionDetailModel? regionDetailModel = await response.Content.ReadFromJsonAsync<RegionDetailModel>(cancellationToken: cancellationToken);

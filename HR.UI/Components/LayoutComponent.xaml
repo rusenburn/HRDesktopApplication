@@ -13,6 +13,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <local:Navbar Grid.Row="0" DataContext="{Binding NavbarComponentViewModel}"/>
-        <ContentControl Grid.Row="1" MaxWidth="1000" Margin="20" Content="{Binding ContentViewModel}"/>
+        <ContentControl Grid.Row="1" MaxWidth="1000" Margin="20 10 20 0" Content="{Binding ContentViewModel}"/>
     </Grid>
 </UserControl>

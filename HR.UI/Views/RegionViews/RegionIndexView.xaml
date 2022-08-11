@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HR.UI.Views.RegionViews"
+             xmlns:local="clr-namespace:HR.UI.Views.RegionViews" xmlns:regioncomponents="clr-namespace:HR.UI.Components.RegionComponents"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,45 +17,73 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Regions List" FontSize="24"/>
-            <Button Grid.Column="1" Content="Add New Region"
-                    Command="{Binding RegionCreateNavigationCommand}"
-                    Margin="10 0 0 0"/>
+            <TextBlock Grid.Column="0" Text="Regions List" FontSize="24" HorizontalAlignment="Center"/>
         </Grid>
 
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Loading..." Visibility="{Binding IsLoading,Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="30"/>
-            <ListView ItemsSource="{Binding Regions}"
-                      Visibility="{Binding IsLoading,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.View>
-                    <GridView>
-                        
-                        <!-- Region Id Column -->
-                        
-                        <GridViewColumn Header="Region ID">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock HorizontalAlignment="Center" Text="{Binding RegionId}" Padding="0 0 20 0"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Visibility="{Binding IsRegionUpdateEnabled,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                    <regioncomponents:RegionCreateComponent DataContext="{Binding RegionCreateComponent}" />
+                </Grid>
+                <Grid Grid.Row="1" Visibility="{Binding IsRegionUpdateEnabled,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <regioncomponents:RegionUpdateComponent DataContext="{Binding RegionUpdateComponent}"/>
+                </Grid>
+            </Grid>
 
-                        <!-- Region Name Column -->
-                        <GridViewColumn Header="Region Name">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock HorizontalAlignment="Center" Text="{Binding RegionName}" Padding="0 0 20 0"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
+            <Grid Grid.Column="0">
+                <TextBlock Text="Loading..." Visibility="{Binding IsLoading,Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="30"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ListView ItemsSource="{Binding Regions}"
+                          x:Name="MyListView"
+                      Visibility="{Binding IsLoading,Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                          Margin="0 10 0 0">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+
+                            <!-- Region Id Column -->
+
+                            <GridViewColumn Header="Region ID">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding RegionId}" Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Region Name Column -->
+                            <GridViewColumn Header="Region Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding RegionName}" Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <!--Actions Column-->
+                            <GridViewColumn Header="Actions">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Edit" Command="{Binding Path=DataContext.EditRegionCommand,ElementName=MyListView}" CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

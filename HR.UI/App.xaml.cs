@@ -3,6 +3,7 @@ using HR.Application.Commands.HttpCommands;
 using HR.Application.Services;
 using HR.Application.Stores;
 using HR.Application.ViewModels.AccountViewModels;
+using HR.Application.ViewModels.CountryViewModels;
 using HR.Application.ViewModels.HomeViewModels;
 using HR.Application.ViewModels.RegionViewModels;
 using HR.Application.ViewModels.SharedComponentsViewModels;
@@ -34,6 +35,9 @@ namespace HR.UI
                 services.AddViewModelAndExtras<HomeIndexViewModel>();
                 services.AddViewModelAndExtras<NavbarComponentViewModel>();
                 services.AddViewModelAndExtras<RegionIndexViewModel>();
+                services.AddViewModelAndExtras<RegionCreateComponentViewModel>();
+                services.AddViewModelAndExtras<RegionUpdateComponentViewModel>();
+                services.AddViewModelAndExtras<CountryIndexViewModel>();
 
                 // services
                 services.AddHttpClient<IAccountService, AccountHttpService>();
@@ -41,6 +45,9 @@ namespace HR.UI
 
                 services.AddHttpClient<IRegionService, RegionHttpService>();
                 services.AddFactory<IRegionService, RegionHttpService>();
+
+                services.AddHttpClient<ICountryService, CountryHttpService>();
+                services.AddFactory<ICountryService, CountryHttpService>();
 
                 // Non Navigation Commands
                 services.AddSingleton<AccountRegisterCommand>();
@@ -51,6 +58,7 @@ namespace HR.UI
                 services.AddSingleton<IAccountStore, AccountStore>();
                 services.AddSingleton<IAuthorizationStore, AuthorizationStore>();
                 services.AddSingleton<IRegionStore, RegionStore>();
+                services.AddSingleton<ICountryStore, CountryStore>();
 
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainViewModel>();

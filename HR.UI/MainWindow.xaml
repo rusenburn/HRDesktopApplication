@@ -7,6 +7,10 @@
         xmlns:views="clr-namespace:HR.UI.Views"
         xmlns:regionviews="clr-namespace:HR.UI.Views.RegionViews"
         xmlns:regionVMs="clr-namespace:HR.Application.ViewModels.RegionViewModels;assembly=HR.Application"
+        
+        xmlns:countryviews="clr-namespace:HR.UI.Views.CountryViews"
+        xmlns:countryVMs="clr-namespace:HR.Application.ViewModels.CountryViewModels;assembly=HR.Application"
+        
         xmlns:cmps="clr-namespace:HR.UI.Components"
         xmlns:accountVMs="clr-namespace:HR.Application.ViewModels.AccountViewModels;assembly=HR.Application"
         xmlns:homeVMs="clr-namespace:HR.Application.ViewModels.HomeViewModels;assembly=HR.Application"
@@ -42,6 +46,12 @@
             <!--Region Views-->
             <DataTemplate DataType="{x:Type regionVMs:RegionIndexViewModel}">
                 <regionviews:RegionIndexView/>
+            </DataTemplate>
+            
+            
+            <!--CountryViews-->
+            <DataTemplate DataType="{x:Type countryVMs:CountryIndexViewModel}">
+                <countryviews:CountryIndexView/>
             </DataTemplate>
             
         </Grid.Resources>

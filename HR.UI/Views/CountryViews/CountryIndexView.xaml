@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="HR.UI.Views.CountryViews.CountryIndexView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HR.UI.Views.CountryViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="WhiteSmoke"
+             >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="Country List" FontSize="24" HorizontalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" d:Height="400" d:Width="400" Visibility="{Binding IsCountryUpdateEnabled,Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                      d:Visibility="Collapsed">
+                    <TextBlock Text="Create" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="1" d:Height="400" d:Width="400" Visibility="{Binding IsCountryUpdateEnabled,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Update" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Column="0">
+                <TextBlock Text="Loading . . ." 
+                           FontSize="30" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"
+                           Visibility="{Binding IsLoading,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <ListView ItemsSource="{Binding Countries}"
+                          x:Name="CountriesList"
+                          Visibility="{Binding IsLoading,Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                          Margin="0 10 0 0"
+                          >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+
+                            <!--CountryId Column-->
+
+                            <GridViewColumn Header="Country ID">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CountryId}" HorizontalAlignment="Center"  Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+
+                            <!--CountryName Column-->
+
+                            <GridViewColumn Header="Country Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CountryName}" HorizontalAlignment="Center"  Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+
+
+                            <!--RegionId Column-->
+
+                            <GridViewColumn Header="RegionId Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RegionId}" HorizontalAlignment="Center"  Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Actions-->
+
+                            <GridViewColumn Header="Actions">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Edit" Command="{Binding Path=DataContext.EditCountryCommand,ElementName=CountriesList}" CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+
+
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+        </Grid>
+    </Grid>
+
+</UserControl>

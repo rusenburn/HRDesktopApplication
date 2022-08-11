@@ -1,5 +1,6 @@
 ﻿using HR.Application.Commands;
 using HR.Application.ViewModels.AccountViewModels;
+using HR.Application.ViewModels.CountryViewModels;
 using HR.Application.ViewModels.HomeViewModels;
 using HR.Application.ViewModels.RegionViewModels;
 using HR.Domain.Abstracts;
@@ -8,7 +9,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 
 namespace HR.Application.ViewModels.SharedComponentsViewModels;
-public class NavbarComponentViewModel : ViewModelBase,IViewModel
+public class NavbarComponentViewModel : ViewModelBase, IViewModel
 {
     private bool _isDisposed;
 
@@ -18,25 +19,28 @@ public class NavbarComponentViewModel : ViewModelBase,IViewModel
     public ICommand AccountRegisterNavigationCommand { get; }
     public ICommand AccountLoginNavigationCommand { get; }
     public ICommand RegionIndexNavigationCommand { get; }
+    public ICommand CountryIndexNavigationCommand { get; }
 
     public NavbarComponentViewModel(IAccountStore accountStore,
             INavigationCommand<HomeIndexViewModel> homeIndexNavigationCommand,
             INavigationCommand<AccountRegisterViewModel> accountRegisterNavigationCommand,
             INavigationCommand<AccountLoginViewModel> accountLoginNavigationCommand,
-            INavigationCommand<RegionIndexViewModel> regionIndexNavigationCommand)
+            INavigationCommand<RegionIndexViewModel> regionIndexNavigationCommand,
+            INavigationCommand<CountryIndexViewModel> countryIndexNavigationCommand)
     {
         _accountStore = accountStore;
         HomeIndexNavigationCommand = homeIndexNavigationCommand;
         AccountRegisterNavigationCommand = accountRegisterNavigationCommand;
         AccountLoginNavigationCommand = accountLoginNavigationCommand;
         RegionIndexNavigationCommand = regionIndexNavigationCommand;
+        CountryIndexNavigationCommand = countryIndexNavigationCommand;
     }
 
     protected override void Dispose(bool disposing)
     {
-        if(!_isDisposed)
+        if (!_isDisposed)
         {
-            if(disposing)
+            if (disposing)
             {
 
             }
