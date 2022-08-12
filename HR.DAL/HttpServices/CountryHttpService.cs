@@ -43,7 +43,7 @@ public class CountryHttpService : ICountryService
         return false;
     }
 
-    public async Task<IEnumerable<CountryModel>?> GetAllAsync(CountryQueryModel? query, CancellationToken cancellationToken)
+    public async Task<IEnumerable<CountryModel>> GetAllAsync(CountryQueryModel? query, CancellationToken cancellationToken)
     {
 
         var d = query?.GetDict() ?? new();
@@ -57,7 +57,7 @@ public class CountryHttpService : ICountryService
         var response = await _client.SendAsync(message, cancellationToken);
         if (!response.IsSuccessStatusCode) return Array.Empty<CountryModel>();
         var result = await response.Content.ReadFromJsonAsync<CountryModel[]>(cancellationToken: cancellationToken);
-        return result;
+        return result ?? Enumerable.Empty<CountryModel>();
 
     }
 
@@ -71,7 +71,7 @@ public class CountryHttpService : ICountryService
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _authorizationStore.Token);
         var response = await _client.SendAsync(request, cancellationToken);
         if (!response.IsSuccessStatusCode) return null;
-        var result = await response.Content.ReadFromJsonAsync<CountryDetailModel>(cancellationToken:cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<CountryDetailModel>(cancellationToken: cancellationToken);
         return result;
     }
 
@@ -84,10 +84,10 @@ public class CountryHttpService : ICountryService
             Method = HttpMethod.Put,
             Content = JsonContent.Create(updateModel)
         };
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer",_authorizationStore.Token);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _authorizationStore.Token);
         var response = await _client.SendAsync(request, cancellationToken);
         if (!response.IsSuccessStatusCode) return null;
-        CountryModel? result = await response.Content.ReadFromJsonAsync<CountryModel>(cancellationToken:cancellationToken);
+        CountryModel? result = await response.Content.ReadFromJsonAsync<CountryModel>(cancellationToken: cancellationToken);
         return result;
     }
 }

@@ -42,7 +42,7 @@ public abstract class CountryHttpServiceTests : IDisposable
         public async Task Should_throw_ArgumentNullException_when_passing_null()
         {
             // Arrange
-            var func = () => ServiceUnderTest.CreateOneAsync(null, CancellationTokenSource.Token);
+            var func = () => ServiceUnderTest.CreateOneAsync(null!, CancellationTokenSource.Token);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>("createModel", func);
