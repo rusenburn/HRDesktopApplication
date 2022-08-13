@@ -54,6 +54,9 @@ namespace HR.UI
                 services.AddHttpClient<ILocationService, LocationHttpService>();
                 services.AddFactory<ILocationService, LocationHttpService>();
 
+                services.AddHttpClient<IDepartmentService,DepartmentHttpService>();
+                services.AddFactory<IDepartmentService, DepartmentHttpService>();
+
                 // Non Navigation Commands
                 services.AddSingleton<AccountRegisterCommand>();
                 services.AddSingleton<AccountLoginCommand>();
