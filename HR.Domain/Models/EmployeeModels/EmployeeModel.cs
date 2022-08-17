@@ -9,4 +9,3 @@ public record EmployeeModel(int EmployeeId,
                             int? JobId,
                             int? ManagerId,
                             int? DepartmentId);
-
